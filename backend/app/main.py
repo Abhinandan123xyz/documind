@@ -1,23 +1,14 @@
+# app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
 from contextlib import asynccontextmanager
 
 from app.config import get_settings
 from app.models import Base
+from app.database import engine, get_db  # Import from new database module
 from app.routers import chat, documents, auth
 
 settings = get_settings()
-
-# Create DB engine
-engine = create_async_engine(settings.DATABASE_URL, echo=settings.DEBUG)
-AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-
-# DB dependency — used in every route
-async def get_db():
-    async with AsyncSessionLocal() as session:
-        yield session
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

@@ -1,0 +1,18 @@
+# Backend - Python
+backend/.env
+backend/**/__pycache__/
+backend/__pycache__/
+backend/**/*.pyc
+backend/*.pyc
+backend/venv/
+backend/uploads/
+backend/documind.db
+backend/chroma_db/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# General
+.DS_Store
+*.log
