@@ -1,0 +1,33 @@
+services:
+  backend:
+    build: ./backend
+    container_name: documind-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_URL=sqlite+aiosqlite:///./data/documind.db   # database inside data volume
+      - CHROMA_PERSIST_DIR=./chroma_db
+      - DEBUG=False
+    volumes:
+      - chroma_data:/app/chroma_db       # Docker-managed
+      - upload_data:/app/uploads         # Docker-managed
+      - sqlite_data:/app/data            # Docker-managed (SQLite will be written here)
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: documind-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+  upload_data:
+  sqlite_data:                         # new volume for SQLite
