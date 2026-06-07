@@ -7,7 +7,7 @@ import AuthPage from "./AuthPage"
 import api from "./api"
 import "./App.css"
 
-const API = "http://localhost:8000"
+const API = ""
 
 export default function App() {
   // ── ALL HOOKS FIRST (order must never change) ──────────
